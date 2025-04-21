@@ -1,0 +1,20 @@
+[package]
+name = "mkup"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+markup = { path = "markup" }
+
+[workspace]
+members = ["markup"]
+
+workspace.resolver = "3"
+
+[dev-dependencies]
+criterion = { version = "0.5.1" }
+
+[[bench]]
+name = "markup_benchmark"
+path = "benches/bench_markup.rs"
+harness = false
