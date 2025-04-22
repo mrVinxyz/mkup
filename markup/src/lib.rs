@@ -6,10 +6,11 @@ pub trait IntoMarkup {
 
 #[derive(Debug)]
 pub enum Markup {
+    Text(Cow<'static, str>),
+    Raw(&'static str),
     Fragment(Vec<Markup>),
     RegularTag(RegularTag),
     SelfClosingTag(SelfClosingTag),
-    Text(Cow<'static, str>),
     None,
 }
 
@@ -46,11 +47,6 @@ impl Markup {
             attributes: Vec::new(),
             children: Vec::new(),
         }
-        // Markup::RegularTag(RegularTag {
-        //     tag,
-        //     attributes: Vec::new(),
-        //     children: Vec::new(),
-        // })
     }
 
     pub fn self_element(tag: &'static str) -> SelfClosingTag {
@@ -58,13 +54,11 @@ impl Markup {
             tag,
             attributes: Vec::new(),
         }
-        // Markup::SelfClosingTag(SelfClosingTag {
-        //     tag,
-        //     attributes: Vec::new(),
-        // })
     }
 
-    // pub fn raw(content: &'static str) -> Self {}
+    pub fn raw(content: &'static str) -> Self {
+        Markup::Raw(content)
+    }
 
     pub fn render(&self) -> String {
         let mut buffer = String::new();
@@ -98,6 +92,9 @@ impl Markup {
             match node {
                 Markup::Text(content) => {
                     buffer.push_str(&escape_html(content));
+                }
+                Markup::Raw(content) => {
+                    buffer.push_str(content);
                 }
                 Markup::RegularTag(element) => {
                     if !processed {

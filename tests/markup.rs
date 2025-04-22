@@ -79,11 +79,11 @@ mod markup_tests {
         );
     }
 
-    // #[test]
-    // fn test_raw_rendering() {
-    //     let markup = Markup::raw("<script>alert('XSS')</script>");
-    //     assert_eq!(markup.render(), "<script>alert('XSS')</script>");
-    // }
+    #[test]
+    fn test_raw_rendering() {
+        let markup = Markup::raw("<script>alert('XSS')</script>");
+        assert_eq!(markup.render(), "<script>alert('XSS')</script>");
+    }
 
     #[test]
     fn test_option_rendering() {
